@@ -45,9 +45,12 @@ const getNumberOfAttempts = (arr) => {
   return arr.join('').length * 0.3;
 };
 
-const checkAttempt = (userNum, pcNum, arr) => {
+const checkAttempt = (pcNum, arr) => {
+  
+  let userNum = prompt('Угадай число в заданном диапазоне, испытуемый:');
 
-  if (userNum === false) {
+  console.log(userNum);
+  if (userNum === null) {
     alert('Испытание отменено.');
 
     return;
@@ -58,35 +61,38 @@ const checkAttempt = (userNum, pcNum, arr) => {
   if (Number.isNaN(userNum)) {
     alert('Введи число!');
 
-    game();
+    checkAttempt(pcNum, arr);
   };
 
-  if (userNum < pcNum) {
-    alert('Меньше!');
-    console.log(userNum, pcNum);
-
-    arr.push(userNum);
-    game();
-  };
-
-  if (userNum > pcNum) {
-    alert('Больше!');
-    console.log(userNum, pcNum);
-
-    arr.push(userNum);
-    game();
-  };
-
+  console.log(arr);
   if(arr.includes(userNum)) {
     alert('Это число вы уже вводили.');
 
-    game();
+    checkAttempt(pcNum, arr);
   }
 
-  if (+userNum === pcNum) {
+  if (userNum < pcNum) {
+    console.log(userNum, pcNum);
+    alert('Меньше!');
+
+    arr.push(userNum);
+    checkAttempt(pcNum, arr);
+  };
+
+  if (userNum > pcNum) {
+    console.log(userNum, pcNum);
+    alert('Больше!');
+
+    arr.push(userNum);
+    checkAttempt(pcNum, arr);
+  };
+
+  if (userNum === pcNum) {
     console.log(userNum, pcNum);
 
     alert('Испытание пройдено! Больше огня под ногами твоих врагов, испытуемый!');
+
+    return;
   };
 }
 
@@ -102,15 +108,17 @@ const game = () => {
 
   const randomInt = getRandomInt(firstNum, secondNum);
 
-  const usersInt = prompt('Угадай число в заданном диапазоне, испытуемый:');
+
   
   counter++;
   
-  checkAttempt(usersInt, randomInt, failedAttempts);
+  checkAttempt(randomInt, failedAttempts);
 
   if (counter === numberOfAttempts) {
     return;
-  }
+  };
+  
+  return;
 }
 
 game();
