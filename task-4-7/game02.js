@@ -45,7 +45,7 @@ const getNumberOfAttempts = (arr) => {
   return arr.join('').length * 0.3;
 };
 
-const checkAttempt = (pcNum, arr) => {
+const checkAttempt = (pcNum, arr, counter) => {
   
   let userNum = prompt('Угадай число в заданном диапазоне, испытуемый:');
 
@@ -56,11 +56,10 @@ const checkAttempt = (pcNum, arr) => {
     return;
   };
 
-  userNum = +userNum;
-
   if (Number.isNaN(userNum)) {
     alert('Введи число!');
 
+    counter++;
     checkAttempt(pcNum, arr);
   };
 
@@ -75,6 +74,7 @@ const checkAttempt = (pcNum, arr) => {
     console.log(userNum, pcNum);
     alert('Меньше!');
 
+    counter++;
     arr.push(userNum);
     checkAttempt(pcNum, arr);
   };
@@ -83,6 +83,7 @@ const checkAttempt = (pcNum, arr) => {
     console.log(userNum, pcNum);
     alert('Больше!');
 
+    counter++;
     arr.push(userNum);
     checkAttempt(pcNum, arr);
   };
@@ -107,13 +108,10 @@ const game = () => {
   const numberOfAttempts = getNumberOfAttempts(rangeArr);
 
   const randomInt = getRandomInt(firstNum, secondNum);
-
-
   
-  counter++;
-  
-  checkAttempt(randomInt, failedAttempts);
+  checkAttempt(randomInt, failedAttempts, counter);
 
+  console.log(counter);
   if (counter === numberOfAttempts) {
     return;
   };
