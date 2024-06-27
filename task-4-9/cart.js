@@ -1,7 +1,7 @@
 const cart = {
   items: [],
   get totalPrice() {
-   return this.calculateItemPrice();
+    return this.calculateItemPrice();
   },
   count: 0,
 
@@ -10,9 +10,7 @@ const cart = {
   },
 
   calculateItemPrice() {
-    return this.items.reduce((sum, item) => {
-      return sum + item.productPrice
-    }, 0)
+    return this.items.reduce((sum, item) => sum + item.productPrice, 0);
   },
 
   add(productName, productPrice, productCount = 1) {
