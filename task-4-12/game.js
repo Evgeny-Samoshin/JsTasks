@@ -18,39 +18,37 @@
       const figure = lang === 'EN' || lang === 'ENG' ?
         prompt('rock, scissors, paper?') :
         prompt('камень, ножницы, бумага?');
-      console.log(figure);
+
       return figure ? figure.toLowerCase() : null;
     };
 
     const checkWinner = (movePL, movePC) => {
-      if (movePL === null) {
-        return;
-      };
-
       const indexPCmove = movePC;
-      const playerWord = figures.find(() => figures[movePC].startsWith(movePL));
+      const playerWord = figures.find(item => item.startsWith(movePL));
       const indexPLmove = figures.indexOf(playerWord);
+      console.log(playerWord, figures[movePC]);
 
-      console.log(figures[movePC], figures[indexPLmove]);
-
-      if (indexPCmove === indexPLmove) {
-        return getFigure(lang);
+      if (movePL === null) {
+        return 'close';
       };
+
+      if (indexPCmove === indexPLmove || indexPLmove === -1) {
+        return 'draw';
+      };
+
       if (indexPCmove === 0 && indexPLmove === 2 ||
           indexPCmove === 1 && indexPLmove === 0 ||
           indexPCmove === 2 && indexPLmove === 1) {
-        return true;
+        score.player += 1;
+        return 'win';
       };
+
       if (indexPCmove === 0 && indexPLmove === 1 ||
           indexPCmove === 1 && indexPLmove === 2 ||
           indexPCmove === 2 && indexPLmove === 0) {
-        return false;
+        score.computer += 1;
+        return 'loose';
       };
-    };
-
-    const setScore = (check) => {
-      console.log(score);
-      check ? score.player += 1 : score.computer += 1;
     };
 
     return function start() {
@@ -90,20 +88,27 @@
         const phrases = lang === 'EN' || lang === 'ENG' ?
         FRASES_EN : FRASES_RU;
 
-        if (check) {
+        if (check === 'win') {
           alert(phrases.win);
-        } else {
+          confirm(phrases.continue) ? start() : showMessage('close');
+        };
+
+        if (check === 'loose') {
           alert(phrases.loose);
-        }
-        confirm(phrases.continue) ? start() : alert(phrases.score);
+          confirm(phrases.continue) ? start() : showMessage('close');
+        };
+
+        if (check === 'draw') {
+          start();
+        };
+
+        if (check === 'close') {
+          alert(phrases.score);
+          return;
+        };
       };
 
-      const letTurn = (check) => {
-        setScore(check);
-        showMessage(check);
-      };
-
-      letTurn(checkWinner(movePlayer, moveComputer));
+      showMessage(checkWinner(movePlayer, moveComputer));
     };
   };
   window.rsp = game;
