@@ -6,11 +6,6 @@
 
   const game = (resultRSP) => {
     const draw = resultRSP;
-    console.log(draw);
-    if (draw === null) {
-      alert('Игра завершена.');
-      return;
-    };
 
     const getPlayerNum = () => {
       const num = prompt(`Введте число от 1 до ${score.player}`);
@@ -23,7 +18,7 @@
 
     const getComputerNum = () => {
       const num = Math.floor(Math.random() * score.computer + 1);
-
+      console.log(`Компьютер загадал ${num}`);
       return num;
     };
 
@@ -33,10 +28,19 @@
       return answer ? 2 : 1;
     };
 
-    const getComputerAnswer = () => Math.floor(Math.random() * 2 + 1);
+    const getComputerAnswer = () => {
+      const num = Math.floor(Math.random() * 2 + 1);
+
+      if (num === 2) {
+        console.log('Компьютер ответил чётное');
+      } else {
+        console.log('Компьютер ответил нечётное');
+      };
+
+      return num;
+    };
 
     const showDraw = (draw) => {
-      console.log('жребий ' + draw);
       if (draw) {
         alert('Ходит игрок.');
         return draw;
@@ -49,6 +53,11 @@
     let turn = !draw;
 
     return function start() {
+      if (draw === null) {
+        alert('Игра завершена.');
+        return;
+      };
+
       turn = !turn;
 
       const startNewGame = () => {
@@ -64,7 +73,8 @@
         return;
       };
 
-      console.log(score.player, score.computer);
+      console.log(
+          `Шаров у игрока ${score.player}. Шаров у компютера ${score.computer}`);
       if (score.player <= 0) {
         alert('Вы проиграли!');
         return startNewGame();
@@ -79,10 +89,12 @@
         if (who) {
           if (number % 2 === 0 && answer % 2 === 0 ||
             number % 2 !== 0 && answer % 2 !== 0) {
+            console.log('Компьютер угадал');
             score.player -= number;
             score.computer += number;
             start();
           } else {
+            console.log('Компьютер не угадал');
             score.player += number;
             score.computer -= number;
             start();
@@ -90,10 +102,12 @@
         } else {
           if (number % 2 === 0 && answer % 2 === 0 ||
             number % 2 !== 0 && answer % 2 !== 0) {
+            console.log('Игрок угадал');
             score.player += number;
             score.computer -= number;
             start();
           } else {
+            console.log('Игрок не угадал');
             score.player -= number;
             score.computer += number;
             start();

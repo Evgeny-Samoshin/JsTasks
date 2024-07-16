@@ -30,13 +30,14 @@
         const indexPCmove = movePC;
         const playerWord = figures.find(item => item.startsWith(movePL));
         const indexPLmove = figures.indexOf(playerWord);
-        console.log(playerWord, figures[movePC]);
-
+        console.log('Жеребьевка:');
         if (movePL === null) {
+          console.log('Игрок отменил жеребьевку.');
           return null;
         };
 
         if (indexPCmove === indexPLmove || indexPLmove === -1) {
+          console.log(`Игрок: ${playerWord}. Компьютер: ${figures[movePC]}.`);
           return start();
         };
 
@@ -44,6 +45,8 @@
           indexPCmove === 1 && indexPLmove === 0 ||
           indexPCmove === 2 && indexPLmove === 1) {
           score.player += 1;
+          console.log(`Игрок: ${playerWord}. Компьютер: ${figures[movePC]}.`);
+          console.log('Жеребьевку выиграл Игрок');
           return 1;
         };
 
@@ -51,6 +54,8 @@
           indexPCmove === 1 && indexPLmove === 2 ||
           indexPCmove === 2 && indexPLmove === 0) {
           score.computer += 1;
+          console.log(`Игрок: ${playerWord}. Компьютер: ${figures[movePC]}.`);
+          console.log('Жеребьевку выиграл Компьютер');
           return 0;
         };
       };
